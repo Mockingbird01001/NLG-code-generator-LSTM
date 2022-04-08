@@ -1,0 +1,21 @@
+
+OP_CALLBACK_SKIP_OPS = (
+    b"Enter",
+    b"Exit",
+    b"Identity",
+    b"If",
+    b"LoopCond",
+    b"Merge",
+    b"NextIteration",
+    b"StatelessIf",
+    b"StatefulPartitionedCall",
+    b"Switch",
+    b"While",
+    b"RemoteCall",
+    b"TPUReplicatedInput",
+    b"TPUReplicateMetadata",
+    b"TPUCompilationResult",
+    b"TPUReplicatedOutput",
+    b"ConfigureDistributedTPU",
+    b"DestroyResourceOp",
+)

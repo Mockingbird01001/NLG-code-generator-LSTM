@@ -1,0 +1,65 @@
+
+import ast
+import re
+import string
+from typing import Sequence
+from absl import app
+from absl import flags
+_OUTPUT_FILE = flags.DEFINE_string('output_file', None, 'output file location')
+_SRC = flags.DEFINE_string('src', None, 'source file location')
+flags.mark_flags_as_required(['output_file', 'src'])
+def _substitute_function_template(module: str) -> str:
+  while True:
+    pattern = r'^\s*parameters(\[.*?\])\n?(^\s*(?:func\.)+func.*?\{.*?(?:func\.)+return.*?\}\n)'
+    func_match = re.search(pattern, module, re.MULTILINE | re.DOTALL)
+    if func_match is None:
+      break
+    try:
+      value_list = ast.literal_eval(func_match.group(1))
+      func_template = string.Template(func_match.group(2))
+      raise ValueError('The function template is in wrong format') from e
+    replacement_text = ''
+    for value_dict in value_list:
+      replacement_text += '\\n'
+      replacement_text += func_template.substitute(value_dict)
+    module = re.sub(
+        pattern,
+        replacement_text,
+        module,
+        count=1,
+        flags=re.MULTILINE | re.DOTALL)
+  return module
+def main(_: Sequence[str]) -> None:
+  with open(_SRC.value, 'r') as f:
+    content = f.read()
+    module_match = re.search(r'(^module\s\{)(.*)(^\})', content,
+                             re.MULTILINE | re.DOTALL)
+    if module_match is None:
+      raise ValueError("Couldn't find module in the function library")
+    module = module_match.group()
+    module = _substitute_function_template(module)
+  with open(_OUTPUT_FILE.value, 'w') as f:
+    f.write("""/* Copyright 2022 The TensorFlow Authors. All Rights Reserved.
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+    http://www.apache.org/licenses/LICENSE-2.0
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+==============================================================================*/
+namespace mlir {
+namespace quant {
+constexpr char kQuantizedFunctionLibraryInMLIR[] =""")
+    for line in module.splitlines():
+      f.write('\n  "')
+      f.write(line.rstrip().replace('"', r'\"'))
+      f.write('\\n"')
+    f.write(""";
+}  // namespace quant
+}  // namespace mlir
+""")
+if __name__ == '__main__':
+  app.run(main)

@@ -1,0 +1,2 @@
+
+class NativeObject(object):
