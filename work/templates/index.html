@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="../static/css/bootstrap.min.css" rel="stylesheet">
+    <link href="../static/css/app.css" rel="stylesheet">
+    <link href="../static/css/bootstrap-suggest.css" rel="stylesheet">
+    <script src="../static/js/jquery-3.4.1.min.js"></script>
+    <script src="../static/js/bootstrap.min.js"></script>
+    <script src="../static/js/bootstrap-suggest.js"></script>
+    <script src="../static/js/app.js"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Josefin+Sans:300|Open+Sans:300|Oxygen|Material+Icons" rel="stylesheet">
+</head>
+
+
+<body>
+    <div class="overlay">
+        <div class="spinner-border text-primary" role="status"><span class="sr-only">Loading...</span></div>
+    </div>
+    <h2> Deep Learning en Action </h2>
+    <div class="row">
+        <div class="col-sm-1"></div>
+
+        <div class="col-sm-10">
+            <center>
+                <h3>Code Generation With LSTM</h3>
+            </center>
+            <div class="form-row">
+                <div class="form-group col-md-8">
+                    <br>
+                    <h4>Entrer un bout de code suivis d'un espace:</h4>
+                </div>
+                <div class="form-group col-md-4">
+                    <br>
+                    <label for="max_words" id="label_max_words">Top k sequences: 5</label>
+                    <input type="range" class="custom-range" min="1" max="10" value="5" step="1" id="max_words">
+                </div>
+            </div>
+
+            <div class="form-row">
+                <textarea class="form-control txt_input" id="input_text" rows="1"></textarea>
+            </div>
+
+            <h4> Predictions </h4>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="text_paragraphs">Temperature 1.0</label>
+                    <textarea class="form-control txt_response" id="tmp__1" readonly></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="text_paragraphs">Temperature 0.7</label>
+                    <textarea class="form-control txt_response" id="tmp_07" readonly></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="text_paragraphs">Temperature 0.4</label>
+                    <textarea class="form-control txt_response" id="tmp_04" readonly></textarea>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="text_paragraphs">Temperature 0.1</label>
+                    <textarea class="form-control txt_response" id="tmp_01" readonly></textarea>
+                </div>
+            </div>
+            <hr>
+
+        </div>
+        <div class="col-sm-1"></div>
+    </div>
+</body>
+
+</html>
