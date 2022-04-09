@@ -28,7 +28,6 @@ class Visu:
         # load un ancien model
         self.model = self.lstm_model(sequence_length=self.max_len, vocab_size=len(self.text_train), layer_size=self.layer_size)
         self.model = models.load_model('data/out/lstm_model_simple')
-        # self.model = models.load_model('data/out/lstm_model_emb')
         # init les equivalent du TF IDF
         self.token2ind, self.ind2token = self.text_train.token2ind, self.text_train.ind2token
         
